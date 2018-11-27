@@ -1,13 +1,20 @@
 language: node_js
 install: npm install
-script: 
-  - npm run test
+script:
+- ssh
+- cd /var/wwwroot/nuxt-test
+- npm run build
+- pm2 delete nuxt-test
+- pm2 start ecosystem.config.js
 branchs:
   only:
   - master
-script: 
-  - ssh 
-  - cd /var/wwwroot/nuxt-test
-  - npm run build
-  - pm2 delete nuxt-test
-  - pm2 start ecosystem.config.js
+addons:
+  ssh_known_hosts:
+  - 120.78.178.159 #受信主机，你的Linux服务器ip
+before_install:
+- openssl aes-256-cbc -K $encrypted_7601b184a2f6_key -iv $encrypted_7601b184a2f6_iv
+  -in id_rsa.enc -out ~\/.ssh/id_rsa -d
+after_success:
+- chmod 600 ~/.ssh/id_rsa
+- ssh root@120.78.178.159 -o StrictHostKeyChecking=no 'cd ~/var/wwwroot/nuxt-test && git fetch --all && git checkout master && git reset --hard && git pull origin master && npm install && npm run build && pm2 delete nuxt-test && pm2 start ecosystem.config.js'
