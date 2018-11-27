@@ -18,6 +18,6 @@ notifications:
   email:
     recipients:
       - sktony6260@126.com
-    on_success: change
+    on_success: always
     on_failure: always
 
