@@ -1,11 +1,5 @@
 language: node_js
 install: npm install
-script:
-- ssh
-- cd /var/wwwroot/nuxt-test
-- npm run build
-- pm2 delete nuxt-test
-- pm2 start ecosystem.config.js
 branchs:
   only:
   - master
