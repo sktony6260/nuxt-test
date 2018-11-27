@@ -1,5 +1,5 @@
 <template>
-  <div>{{name}}</div>
+  <h3 class="gray">{{name}}</h3>
 </template>
 <script>
   export default {
@@ -10,3 +10,8 @@
     }
   }
 </script>
+<style scoped>
+  .gray{
+    color:red;
+  }
+</style>

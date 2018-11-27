@@ -1,6 +1,5 @@
 <template>
   <section class="container">
-    <test />
     <div>
       <logo/>
       <h1 class="title">
@@ -9,6 +8,7 @@
       <h2 class="subtitle">
         My world-class Nuxt.js project
       </h2>
+      <test />
       <div class="links">
         <a
           href="https://nuxtjs.org/"
