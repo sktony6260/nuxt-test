@@ -1,49 +1,63 @@
 <template>
   <section class="container">
-    <div>
-      <logo/>
-      <h1 class="title">
-        nuxt-test
-      </h1>
-      <h2 class="subtitle">
-        My world-class Nuxt.js project
-      </h2>
-      <test />
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey">GitHub</a>
-      </div>
-    </div>
+    <p class="wtf">WTF!</p>
+    <p class="intro">A tool for optimizing images.</p>
+    <img-uploader />
   </section>
 </template>
 
 <script>
 import Logo from '~/components/Logo.vue'
 import Test from '~/components/Test.vue'
+import imgUploader from '~/components/imgUploader.vue'
 export default {
   components: {
     Logo,
-    Test
+    Test,
+    imgUploader
+  },
+  data(){
+    return {
+      imgUrl:'ssss'
+    }
+  },
+  mounted(){
+    
+  },
+  async asyncData({app}){
+    // let data  = await app.$axios.$get('/api/exportImg');
+    // if (data) {
+    //   return {
+    //     imgUrl: '/f65d19abba1ec396b4c6870.jpg'
+    //   }
+    // }
+    // data.then(res => {
+    //   console.log(res);
+    // });
   }
 }
 </script>
 
 <style>
-
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+body{
+  overflow-x: hidden;
+  background: #dfc8ca;
 }
-
+.container {
+  
+}
+.wtf{
+  font-size: 30px;
+  text-align: center;
+  color: #666;
+  margin: 10px 0;
+}
+.intro{
+  color: #888;
+  text-align: center;
+  margin-bottom: 30px;
+  text-decoration: underline;
+}
 .title {
   font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;

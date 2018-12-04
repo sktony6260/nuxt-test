@@ -1,18 +1,20 @@
+import express from 'express'
+import consola from 'consola';
+import { Nuxt, Builder } from'nuxt';
+import api from './api';
+import path from 'path';
 
-const express = require('express')
-const consola = require('consola')
-const { Nuxt, Builder } = require('nuxt')
+// Import and Set Nuxt.js options
+import config from '../nuxt.config.js';
+
 const app = express()
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
-
 app.set('port', port)
 
-// Import and Set Nuxt.js options
-let config = require('../nuxt.config.js')
 config.dev = !(process.env.NODE_ENV === 'production')
 
-async function start() {
+const start = (async () =>  {
   // Init Nuxt.js
   const nuxt = new Nuxt(config)
 
@@ -21,6 +23,7 @@ async function start() {
     const builder = new Builder(nuxt)
     await builder.build()
   }
+  app.use('/api', api)
 
   // Give nuxt middleware to express
   app.use(nuxt.render)
@@ -31,5 +34,4 @@ async function start() {
     message: `Server listening on http://${host}:${port}`,
     badge: true
   })
-}
-start()
+})();

@@ -22,16 +22,16 @@ test.before('Init Nuxt.js', async t => {
 test('路由 / 有效且能渲染 HTML', async t => {
   let context = {}
   const { html } = await nuxt.renderRoute('/', context)
-  t.true(html.match(/<h3.+?class="gray".+?jason<\/h3>/).length>0)
+  t.true(html.match(/<p.+?class="wtf".+?WTF!<\/p>/).length>0)
 })
 
 // 测试元素的有效性
 test('路由 / 有效且渲染的HTML有特定的CSS样式', async t => {
   const window = await nuxt.renderAndGetWindow('http://localhost:4000/')
-  const element = window.document.querySelector('.gray')
+  const element = window.document.querySelector('.intro')
   t.not(element, null)
-  t.is(element.textContent, 'jason')
-  t.is(element.className, 'gray')
+  t.is(element.textContent, 'A tool for optimizing images.')
+  t.is(element.className, 'intro')
 })
 
 // 关掉服务器和Nuxt实例，停止文件监听。
