@@ -10,6 +10,7 @@ const mergePromise = req => {
     position
   });
   var arr = [];
+  
   return (async function(){
     for (var i = 0; i < req.files.length; i++) {
       const res = await optImg.toFile(req.files[i].path); 
@@ -27,12 +28,12 @@ router.post('/upload',function(req,res,next) {
       // console.log(req.files);
       mergePromise(req).then(_res => {
         console.log(_res);
+        res.send(_res);
         // const result = req.files.map((file,index) => {
         //   let item = _res[index];
         //   item.origin.filename = file.filename;
         //   return item;
         // })
-        res.send(_res);
       });
     }
   });
