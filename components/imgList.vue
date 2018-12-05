@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap-img-list" v-if="data.length>0">
+  <div class="wrap-img-list">
     <div class="img-list">
       <div class="img-box" v-for="img in data">
         <div class="origin-part">

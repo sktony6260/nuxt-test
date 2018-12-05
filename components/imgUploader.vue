@@ -24,7 +24,10 @@
         <div class="note">Note: if width and height not provide,will be output as original size,and [fit,position] options will be failure </div>
       </div>
     </div>
-    <imgList :data="imgData" />
+    <imgList v-if="imgData && imgData.length>0" :data="imgData" />
+    <div class="spining" v-if="spining">
+      <spin text="pics making..." />
+    </div>
   </div>
 </template>
 <style lang="less" scoped>
@@ -35,6 +38,10 @@
   }
   .fade-enter, .fade-leave-active{
     opacity: 0; 
+  }
+  .spining{
+    text-align: center;
+    margin-top: 200px;
   }
   .button{
     border: none;
@@ -126,13 +133,16 @@
 </style>
 <script>
   import imgList from '~/components/imgList.vue'
+  import spin from '~/components/spin.vue'
   export default {
     components: {
-      imgList
+      imgList,
+      spin
     },
     data(){
       return {
         disabled:false,
+        spining:false,
         btnText:'Upload',
         fileNum:0,
         imgData:[],
@@ -204,6 +214,8 @@
     methods:{
       upload(){
         this.disabled = true;
+        this.spining = true;
+        this.imgData = [];
         this.btnText = 'Uploading';
         const files = this.$refs.imgFile.files; 
         if (!files.length) {
@@ -241,6 +253,7 @@
           this.fileNum = 0;
           this.disabled = false;
           this.btnText = 'Upload';
+          this.spining = false;
         }).catch(e => {
           this.$refs.imgFile.value = '';
           this.fileNum = 0;

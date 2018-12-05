@@ -16,6 +16,11 @@ export default {
     Test,
     imgUploader
   },
+  head() {
+    return {
+      title: 'a tool for optimizing image'
+    }
+  },
   data(){
     return {
       imgUrl:'ssss'
@@ -44,7 +49,7 @@ body{
   background: #dfc8ca;
 }
 .container {
-  
+  height: 100vw;
 }
 .wtf{
   font-size: 30px;
