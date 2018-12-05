@@ -72,7 +72,7 @@ class OptimizeImg{
       res = await sharp
         .jpeg({
           ...this.extraOpt,
-          quality:this.options.jpgQuality
+          quality:parseInt(opts.jpgQuality)
         })
         .toFile(outPut);
     }else if(format == 'png'){
@@ -81,7 +81,7 @@ class OptimizeImg{
       res = await sharp
         .png({
           ...this.extraOpt,
-          compressionLevel:this.options.pngQuality
+          compressionLevel:parseInt(opts.pngQuality)
         })
         .toFile(outPut);
     }else if(format == 'webp'){
@@ -90,7 +90,7 @@ class OptimizeImg{
       res = await sharp
         .webp({
           ...this.extraOpt,
-          quality:this.options.webpQuality
+          quality:parseInt(opts.webpQuality)
         })
         .toFile(outPut);
     }else{

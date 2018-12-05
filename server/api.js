@@ -2,15 +2,8 @@ import express from 'express'
 import {imgUpload,imgOptimize} from '../imgServer';
 const router = express.Router();
 const mergePromise = req => {
-  let {width,height,fit,position} = req.body;
-  const optImg = new imgOptimize({
-    width,
-    height,
-    fit,
-    position
-  });
+  const optImg = new imgOptimize(req.body);
   var arr = [];
-  
   return (async function(){
     for (var i = 0; i < req.files.length; i++) {
       const res = await optImg.toFile(req.files[i].path); 
@@ -21,6 +14,7 @@ const mergePromise = req => {
 };
 router.post('/upload',function(req,res,next) {
   imgUpload.array('myPic')(req,res,function(err){
+    // console.log(req.body);
     if (err) {
       console.error(err);
       res.send(err.msg)
@@ -29,11 +23,6 @@ router.post('/upload',function(req,res,next) {
       mergePromise(req).then(_res => {
         console.log(_res);
         res.send(_res);
-        // const result = req.files.map((file,index) => {
-        //   let item = _res[index];
-        //   item.origin.filename = file.filename;
-        //   return item;
-        // })
       });
     }
   });

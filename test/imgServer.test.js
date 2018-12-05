@@ -45,7 +45,8 @@ test('input a png file,and force format to jpg', async t => {
   const optimize = new imgOptimize({
     width:300,
     height:300,
-    format:'jpg'
+    format:'jpg',
+    jpgQuality:10
   });
   const dest = temp.mkdirSync();
   const input = resolve('./test/img/test.png');

@@ -17,11 +17,13 @@
         </transition>
       </div>
       <div class="format-layout">
-        <div><span>width:</span><input class="inputText" type="number" min="10" ref="width" /></div>
-        <div><span>height:</span><input class="inputText" type="number" min="10" ref="height" /></div>
-        <div><span>image fit:</span><select ref="fit"><option v-for="fit in fitList" :value="fit.value" :key="fit.value">{{fit.label}}</option></select></div>
-        <div><span>position:</span><select ref="pos"><option v-for="pos in positionList" :value="pos.value" :key="pos.value">{{pos.label}}</option></select></div>
-        <div class="note">Note: if width and height not provide,will be output as original size,and [fit,position] options will be failure </div>
+        <div><span class="t">width:</span><input class="inputText" type="number" min="10" ref="width" /></div>
+        <div><span class="t">height:</span><input class="inputText" type="number" min="10" ref="height" /></div>
+        <div><span class="t">image fit:</span><select ref="fit"><option v-for="fit in fitList" :value="fit.value" :key="fit.value">{{fit.label}}</option></select></div>
+        <div><span class="t">position:</span><select ref="pos"><option v-for="pos in positionList" :value="pos.value" :key="pos.value">{{pos.label}}</option></select></div>
+        <div><span class="t">format:</span><select ref="format" @change="formatChange($event)"><option value="">auto</option><option v-for="_format in formatList" :value="_format.value" :key="_format.value">{{_format.label}}</option></select></div>
+        <div class="range" v-show="showRange"><span class="t">{{rangeTitle}}:</span><input ref="range" type="range" :max="rangeMax" :min="rangeMin" :value="currRange" @input="changeRange($event)" /><span>{{currRange}}</span></div>
+        <div class="note">Note: if width and height not provide,will be output as original size,and [fit,position] options will be failure</div>
       </div>
     </div>
     <imgList v-if="imgData && imgData.length>0" :data="imgData" />
@@ -42,6 +44,15 @@
   .spining{
     text-align: center;
     margin-top: 200px;
+  }
+  .range{
+    font-size: 12px;
+    color: #666;
+    input{
+      position:relative;
+      top: 3px;
+      margin-right: 5px;
+    }
   }
   .button{
     border: none;
@@ -119,11 +130,16 @@
     & > div{
       text-align: left;
       margin-bottom: 15px;
-      span{
+      span.t{
         display: inline-block;
         width: 80px;
         color: #999;
       }
+    }
+    & div.range span.t{
+      width: auto;
+      font-size: 16px;
+      margin-right: 10px;
     }
   }
   .note{
@@ -143,9 +159,43 @@
       return {
         disabled:false,
         spining:false,
+        showRange:false,
+        rangeTitle:'quality',
         btnText:'Upload',
         fileNum:0,
         imgData:[],
+        rangeMin:1,
+        rangeMax:100,
+        currRange:80,
+        formatList:[
+          {
+            value:'jpg',
+            label:'jpg',
+            range:{
+              min:1,
+              max:100,
+              default:80
+            }
+          },
+          {
+            value:'png',
+            label:'png',
+            range:{
+              min:0,
+              max:9,
+              default:9
+            }
+          },
+          {
+            value:'webp',
+            label:'webp',
+            range:{
+              min:1,
+              max:100,
+              default:80
+            }
+          }
+        ],
         fitList:[
           {
             value:'cover',
@@ -227,12 +277,15 @@
         for (var i = files.length - 1; i >= 0; i--) {
           formData.append('myPic',files[i]);
         }
-        const {width,height,fit,pos} =  this.$refs;        
+        const {width,height,fit,pos,format,range} =  this.$refs;        
         formData.append('width',width.value);
         formData.append('height',height.value);
         formData.append('fit',fit.value);
         formData.append('position',pos.value);
-        // this.$axios.defaults.baseURL = 'http://127.0.0.1:9090';
+        if (format.value != '') {
+          formData.append('format',format.value);
+          formData.append(`${format.value}Quality`,range.value);
+        }
         this.$axios.post('/api/upload',formData,{
           headers: {
             "Content-Type": "multipart/form-data"
@@ -266,6 +319,37 @@
         const files = e.target.files;
         console.log(files);
         this.fileNum = files.length;
+      },
+      changeRange(e){
+        this.currRange = e.target.value;
+      },
+      setRange(format){
+        const rangeMap = {
+          jpg:this.formatList[0].range,
+          png:this.formatList[1].range,
+          webp:this.formatList[2].range,
+        }
+        if (!format) {
+          return;
+        }
+        this.rangeMax = rangeMap[format].max;
+        this.rangeMin = rangeMap[format].min;
+        this.currRange = rangeMap[format].default;
+      },
+      formatChange(e){
+        const val = e.target.value;
+        console.log(e.target.value);
+        if (val) {
+          this.showRange = true;
+          if (val == 'jpg' || val == 'webp') {
+            this.rangeTitle = 'quality';
+          }else{
+            this.rangeTitle = 'compresslevel';
+          }
+        }else{
+          this.showRange = false;
+        }
+        this.setRange(val);
       }
     }
   }

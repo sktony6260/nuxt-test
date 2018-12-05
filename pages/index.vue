@@ -49,7 +49,7 @@ body{
   background: #dfc8ca;
 }
 .container {
-  height: 100vw;
+  
 }
 .wtf{
   font-size: 30px;
