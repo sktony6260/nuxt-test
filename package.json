@@ -5,9 +5,9 @@
   "author": "赵腾江",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon server/index.js --exec babel-node --watch server --watch imgServer",
+    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server --watch imgServer",
     "build": "nuxt build",
-    "start": "cross-env NODE_ENV=production babel-node server/index.js",
+    "start": "cross-env NODE_ENV=production PORT=9090 server/index.js",
     "generate": "nuxt generate",
     "test": "ava -v --color"
   },
