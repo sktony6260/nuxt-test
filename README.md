@@ -4,7 +4,7 @@
 
 # 一个图片优化工具
 
-site architecture is build by nuxt,the main function is input a image and output image as optimized,more options has provided,such as size,fit,format type,position,quality of image when it's output.
+site architecture is build by nuxt,the image server is based on sharpjs which is the typical use case for this high speed Node.js module is to convert large images in common formats to smaller, web-friendly JPEG, PNG and WebP images of varying dimensions,the main function is input a image and output image as optimized,more options has provided,such as size,fit,format type,position,quality of image when it's output.
 
 on finally,the tool will show you original image which you input and the optimized image which output,you can see the detail and  compare each of them at a time.
 
@@ -27,3 +27,4 @@ $ npm start
 $ npm run generate
 ```
 
+thanks sharpjs(http://sharp.pixelplumbing.com/en/stable/)
